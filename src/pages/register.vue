@@ -66,9 +66,13 @@ import * as yup from 'yup'
 import validator from 'validator'
 import { useI18n } from 'vue-i18n'
 import { useAxios } from '@/composables/axios'
+import { useSnackbar } from 'vuetify-use-dialog'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
 const { api } = useAxios()
+const createSnackbar = useSnackbar()
+const router = useRouter()
 
 const schema = yup.object({
   username: yup
@@ -120,21 +124,23 @@ const submit = handleSubmit(async (values) => {
       password: values.password,
     })
     // snackbar 註冊成功
-    // createSnackbar({
-    //   text: t('register.success'),
-    //   snackbarProps: {
-    //     color: 'greenw',
-    //   },
-    // })
+    createSnackbar({
+      text: t('register.success'),
+      snackbarProps: {
+        color: 'success',
+      },
+    })
+    // 跳頁
+    router.push('/login')
   } catch (error) {
     console.log('pages/register.vue', error)
     // snackbar 註冊失敗的原因
-    // createSnackbar({
-    //   text: t('api.' + (error?.response?.data?.message || 'unknownError')),
-    //   snackbarProps: {
-    //     color: 'red',
-    //   },
-    // })
+    createSnackbar({
+      text: t('api.' + (error?.response?.data?.message || 'unknownError')),
+      snackbarProps: {
+        color: 'error',
+      },
+    })
   }
 })
 </script>

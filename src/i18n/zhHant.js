@@ -23,7 +23,7 @@ export default {
 
   // 註冊登入提示、snackbar 訊息
   user: {
-    username: '帳號',
+    username: '使用者名稱',
     email: '電子郵件',
     password: '密碼',
     passwordConfirm: '確認密碼',
@@ -44,10 +44,10 @@ export default {
     //帳號
     // user
     userNotFound: '查無使用者',
-    userDuplicate: '使用者名稱已存在',
     userTokenInvalid: '使用者驗證無效',
 
     // username
+    usernameDuplicate: '使用者名稱已存在',
     usernameRequired: '請輸入使用者名稱',
     usernameTooShort: '使用者名稱太短',
     usernameTooLong: '使用者名稱太長',
@@ -76,5 +76,6 @@ export default {
     //
     requestFormatError: '請求格式有誤',
     serverError: '伺服器錯誤',
+    unknownError: '未知的錯誤',
   },
 }
