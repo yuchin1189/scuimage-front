@@ -28,7 +28,7 @@
             maxlength="20"
             counter
           />
-          <!-- 送出申請 -->
+          <!-- 登入按鈕 -->
           <div class="text-center">
             <!-- 表單送出中的時候按鈕會有載入中的轉圈圈動畫 -->
             <v-btn :loading="isSubmitting" type="submit" color="primary">{{
@@ -84,15 +84,20 @@ const { handleSubmit, isSubmitting } = useForm({
 const username = useField('username')
 const password = useField('password')
 
+// 按下登入按鈕時執行這個
 const submit = handleSubmit(async (values) => {
   try {
+    // 發送一個 axios.post() 請求，並宣告一個 { data } 指到這個請求
     const { data } = await api.post('/user/login', {
       username: values.username,
       password: values.password,
     })
+
+    // 此處的對照後端 controllers/user.js 的 const login 看
+    // data.result 內有 token, username, role 三個東西
     user.login(data.result)
 
-    // snackbar 註冊成功
+    // 提示使用者註冊成功
     createSnackbar({
       text: t('login.success'),
       snackbarProps: {
@@ -103,8 +108,9 @@ const submit = handleSubmit(async (values) => {
     // 順利登入的話跳回首頁
     router.push('/')
   } catch (error) {
-    console.log('pages/login.vue', error)
-    // snackbar 註冊失敗的原因
+    console.log('pages/login.vue 註冊失敗', error)
+
+    // 提示使用者註冊失敗
     createSnackbar({
       text: t('api.' + (error?.response?.data?.message || 'unknownError')),
       snackbarProps: {

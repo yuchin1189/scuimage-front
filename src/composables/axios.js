@@ -1,19 +1,22 @@
 import axios from 'axios'
-// import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API,
 })
 
-// const apiAuth = axios.create({
-//   baseURL: import.meta.env.VITE_API,
-// })
+const apiAuth = axios.create({
+  baseURL: import.meta.env.VITE_API,
+})
 
-// apiAuth.interceptors.request.use((config) => {
-//   const user = useUserStore()
-//   config.headers.Authorization = 'Bearer ' + user.token
-//   return config
-// })
+// axios 的攔截器 interceptor 可以將發送的請求攔截下來，用來取東西或做修改
+// 這裡的例子是將發送的 get() post() 等請求內加上使用者的 token
+apiAuth.interceptors.request.use((config) => {
+  const user = useUserStore()
+  // 注意 'Bearer ' 的引號裡面有一個空格
+  config.headers.Authorization = 'Bearer ' + user.token
+  return config
+})
 
 // apiAuth.interceptors.response.use(
 //   (res) => res,
@@ -40,5 +43,5 @@ const api = axios.create({
 // )
 
 export const useAxios = () => {
-  return { api }
+  return { api, apiAuth }
 }
