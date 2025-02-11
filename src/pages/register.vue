@@ -131,6 +131,7 @@ const submit = handleSubmit(async (values) => {
       },
     })
     // 跳頁
+    // 帳號創建順利的話跳到登入頁
     router.push('/login')
   } catch (error) {
     console.log('pages/register.vue', error)
