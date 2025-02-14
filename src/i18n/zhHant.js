@@ -48,6 +48,7 @@ export default {
     //帳號
     // user
     userNotFound: '查無使用者',
+    userPermissionDenied: '使用者權限不足',
     userTokenInvalid: '使用者驗證無效',
     userTokenExpired: '者登入過期',
 
@@ -82,5 +83,6 @@ export default {
     requestFormatError: '請求格式有誤',
     serverError: '伺服器錯誤',
     unknownError: '未知的錯誤',
+    uploadFailed: '上傳失敗',
   },
 }
