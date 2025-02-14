@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12">
         <!-- Title: 申請 -->
-        <h1 class="text-center">{{ $t('nav.user.register') }}</h1>
+        <h1 class="text-center">{{ $t('nav.usermenu.register') }}</h1>
         <!-- 也可以這樣寫 <h1 v-t="'nav.user.register'" class="text-center"></h1> -->
       </v-col>
       <v-divider></v-divider>

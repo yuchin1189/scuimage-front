@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12">
         <!-- Title: 登入 -->
-        <h1 class="text-center">{{ $t('nav.user.login') }}</h1>
+        <h1 class="text-center">{{ $t('nav.usermenu.login') }}</h1>
       </v-col>
       <v-divider></v-divider>
       <v-col cols="12">

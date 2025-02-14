@@ -5,17 +5,21 @@ export default {
   // app bar
   branding: '溪城攝影學會',
   nav: {
+    // 資源借用選單
     resources: '資源借用',
     about: '關於',
-    booking: {
+    resourceMenu: {
       equipment: '器材借用',
       lab: '暗房預約',
     },
+
+    // usermenu 登入選單
     member: '社員',
-    user: {
+    admin: '管理員',
+    visitor: '訪客',
+    usermenu: {
       login: '登入',
       register: '申請',
-
       logout: '登出',
       resetPassword: '重設密碼',
     },
@@ -45,6 +49,7 @@ export default {
     // user
     userNotFound: '查無使用者',
     userTokenInvalid: '使用者驗證無效',
+    userTokenExpired: '者登入過期',
 
     // username
     usernameDuplicate: '使用者名稱已存在',
