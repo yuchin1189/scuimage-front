@@ -1,14 +1,14 @@
 <!-- 註冊頁 -->
 <template>
   <v-container>
-    <v-row>
+    <v-row justify="center">
       <v-col cols="12">
         <!-- Title: 申請 -->
-        <h1 class="text-center">{{ $t('nav.usermenu.register') }}</h1>
+        <h1 class="text-center">{{ $t('nav.userMenu.register') }}</h1>
         <!-- 也可以這樣寫 <h1 v-t="'nav.user.register'" class="text-center"></h1> -->
       </v-col>
       <v-divider></v-divider>
-      <v-col cols="12">
+      <v-col cols="12" sm="6" md="4">
         <!-- 避免使用者以為送出表單無效而多按幾次造成的重複發送請求 -->
         <!-- 阻止預設的表單送出動作 -->
         <v-form :disabled="isSubmitting" @submit.prevent="submit">

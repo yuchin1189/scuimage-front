@@ -9,7 +9,7 @@
 
       <!-- 活動 -->
 
-      <!-- 資源借用 -->
+      <!-- 資源借用選單 -->
       <v-menu open-on-hover>
         <template #activator="{ props }">
           <v-btn v-bind="props" prepend-icon="mdi-format-list-checks">{{
@@ -23,7 +23,7 @@
         </v-list>
       </v-menu>
 
-      <!-- 社員-->
+      <!-- userMenu 使用者選單 -->
       <v-menu open-on-hover>
         <template #activator="{ props }">
           <v-btn v-if="!user.isAdmin" v-bind="props" prepend-icon="mdi-account">
@@ -35,36 +35,34 @@
         </template>
         <v-list class="bg-secondary">
           <!-- 登入、註冊、重設密碼 -->
-          <template v-for="item in usermenu" :key="item.key">
-            <v-list-item v-if="item.show && item.key !== 'logout'" :to="item.to">{{
-              item.text
-            }}</v-list-item>
-            <!-- 登出 -->
-            <v-list-item v-if="item.show && item.key === 'logout'" @click="logout()">
-              {{ $t('nav.usermenu.logout') }}
-            </v-list-item>
-            <!-- =======================
+          <template v-for="item in userMenu" :key="item.key">
             <v-list-item
-              v-if="item.show"
+              v-if="item.show && item.key !== 'logout'"
               :to="item.to"
               :disabled="item.key === 'resetPassword'"
-              @click="handleMenuItemClick()"
-              >{{ item.text }}</v-list-item
             >
-            ======================= -->
+              {{ item.text }}
+            </v-list-item>
+            <!-- 登出 -->
+            <v-list-item v-if="item.show && item.key === 'logout'" @click="logout()">
+              {{ $t('nav.userMenu.logout') }}
+            </v-list-item>
           </template>
         </v-list>
       </v-menu>
+      <!-- 切換亮暗主題 -->
+      <v-btn icon="mdi-brightness-4" @click="toggleTheme"></v-btn>
     </v-container>
   </v-app-bar>
 
-  <!-- 導覽列下方的主要畫面 -->
+  <!-- 主要頁面區 -->
   <v-main>
     <router-view></router-view>
   </v-main>
 </template>
 
 <script setup>
+import { useTheme } from 'vuetify'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { useRouter } from 'vue-router'
@@ -77,6 +75,7 @@ const { t } = useI18n()
 const user = useUserStore()
 const apiAuth = useAxios()
 const createSnackbar = useSnackbar()
+const theme = useTheme()
 
 console.log('user', user)
 
@@ -85,18 +84,18 @@ const resourceMenu = [
   { to: '/lab', text: t('nav.resourceMenu.lab'), value: 'lab' },
 ]
 
-const usermenu = computed(() => {
+const userMenu = computed(() => {
   return [
     // 登入或註冊（未登入時顯示）
-    { key: 'login', to: '/login', text: t('nav.usermenu.login'), show: !user.isLoggedIn },
+    { key: 'login', to: '/login', text: t('nav.userMenu.login'), show: !user.isLoggedIn },
     {
       key: 'register',
       to: '/register',
-      text: t('nav.usermenu.register'),
+      text: t('nav.userMenu.register'),
       show: !user.isLoggedIn,
     },
-    { key: 'resetPassword', text: t('nav.usermenu.resetPassword'), show: user.isLoggedIn },
-    { key: 'logout', text: t('nav.usermenu.logout'), show: user.isLoggedIn },
+    { key: 'resetPassword', text: t('nav.userMenu.resetPassword'), show: user.isLoggedIn },
+    { key: 'logout', text: t('nav.userMenu.logout'), show: user.isLoggedIn },
   ]
 })
 
@@ -118,8 +117,12 @@ const logout = async () => {
   })
 }
 
-// 登入身分為管理員時，導覽列顏色變成紫色
+// 登入身分為管理員時，導覽列顏色變成茶色
 const appBarColor = computed(() => {
   return user.isAdmin ? 'bg-brown' : 'bg-secondary'
 })
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
 </script>

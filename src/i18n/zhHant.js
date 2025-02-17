@@ -5,7 +5,7 @@ export default {
   // app bar
   branding: '溪城攝影學會',
   nav: {
-    // 資源借用選單
+    // resourcemenu資源借用選單
     resources: '資源借用',
     about: '關於',
     resourceMenu: {
@@ -13,11 +13,11 @@ export default {
       lab: '暗房預約',
     },
 
-    // usermenu 登入選單
+    // userMenu 登入選單
     member: '社員',
     admin: '管理員',
     visitor: '訪客',
-    usermenu: {
+    userMenu: {
       login: '登入',
       register: '申請',
       logout: '登出',
@@ -78,6 +78,8 @@ export default {
     equipmentCategoryRequired: '請選取器材分類',
     equipmentCategoryInvalid: '器材分類不符',
     equipmentStatusRequired: '請選取器材借用狀態',
+    equipmentIdInvalid: '器材 ID 錯誤',
+    equipmentNotFound: '查無器材',
 
     //
     requestFormatError: '請求格式有誤',
