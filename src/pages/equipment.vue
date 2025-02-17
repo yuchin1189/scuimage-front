@@ -1,11 +1,11 @@
-<template>INDEX</template>
+<template>EQUIPMENT</template>
 
 <route lang="json">
 {
   "meta": {
     "login": false,
     "admin": false,
-    "title": "nav.home"
+    "title": "nav.resourceMenu.equipment"
   }
 }
 </route>

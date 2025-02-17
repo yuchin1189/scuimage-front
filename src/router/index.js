@@ -10,6 +10,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 import { useAxios } from '@/composables/axios.js'
 import { useUserStore } from '@/stores/user.js'
+import i18n from '@/i18n'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -35,7 +36,27 @@ router.beforeEach(async (to, from, next) => {
       user.logout()
     }
   }
-  next()
+
+  // 以路由來將使用者帶回正確的地方
+  if (user.isLoggedIn && ['/login', '/register'].includes(to.path)) {
+    // 若使用者已登入，卻輸入登入頁或註冊頁的 URL
+    // 則前往首頁
+    next('/')
+  } else if (to.meta.login && !user.isLoggedIn) {
+    // 若輸入的 URL 需要登入，但使用者未登入
+    // 則去到登入頁
+    next('/login')
+  } else if (to.meta.admin && !user.isAdmin) {
+    // 若使用者輸入的 URL 需要管理員權限
+    // 則去到首頁
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+router.afterEach((to) => {
+  document.title = i18n.global.t(to.meta.title) + ' | 溪城攝影學會'
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

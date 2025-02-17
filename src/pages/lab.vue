@@ -1,11 +1,11 @@
-<template>INDEX</template>
+<template>LAB</template>
 
 <route lang="json">
 {
   "meta": {
     "login": false,
     "admin": false,
-    "title": "nav.home"
+    "title": "nav.resourceMenu.lab"
   }
 }
 </route>

@@ -1,6 +1,6 @@
 <!-- 登入頁 -->
 <template>
-  <v-container>
+  <v-container class="h-100">
     <v-row justify="center">
       <v-col cols="12">
         <!-- Title: 登入 -->
@@ -120,3 +120,11 @@ const submit = handleSubmit(async (values) => {
   }
 })
 </script>
+
+<route lang="json">
+{
+  "meta": {
+    "title": "nav.userMenu.login"
+  }
+}
+</route>

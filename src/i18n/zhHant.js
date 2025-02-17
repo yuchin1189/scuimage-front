@@ -5,6 +5,8 @@ export default {
   // app bar
   branding: '溪城攝影學會',
   nav: {
+    home: '首頁',
+
     // resourcemenu資源借用選單
     resources: '資源借用',
     about: '關於',

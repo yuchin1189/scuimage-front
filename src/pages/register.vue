@@ -145,3 +145,11 @@ const submit = handleSubmit(async (values) => {
   }
 })
 </script>
+
+<route lang="json">
+{
+  "meta": {
+    "title": "nav.userMenu.register"
+  }
+}
+</route>
