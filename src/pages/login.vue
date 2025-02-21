@@ -1,13 +1,13 @@
 <!-- 登入頁 -->
 <template>
-  <v-container class="h-100">
-    <v-row justify="center">
+  <v-container class="h-100 mt-lg-5">
+    <v-row class="justify-center">
       <v-col cols="12">
         <!-- Title: 登入 -->
         <h1 class="text-center">{{ $t('nav.userMenu.login') }}</h1>
       </v-col>
       <v-divider></v-divider>
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="6" lg="4">
         <v-form :disabled="isSubmitting" @submit.prevent="submit">
           <!-- 帳號 -->
           <v-text-field

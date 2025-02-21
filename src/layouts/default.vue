@@ -12,9 +12,9 @@
       <!-- 資源借用選單 -->
       <v-menu open-on-hover>
         <template #activator="{ props }">
-          <v-btn v-bind="props" prepend-icon="mdi-format-list-checks">{{
-            $t('nav.resources')
-          }}</v-btn>
+          <v-btn v-bind="props" prepend-icon="mdi-format-list-checks">
+            <template v-if="!isMobile.valueOf()"> {{ $t('nav.resources') }} </template>
+          </v-btn>
         </template>
         <v-list class="bg-secondary">
           <v-list-item v-for="item in resourceMenu" :key="item.value" :to="item.to">
@@ -26,11 +26,17 @@
       <!-- userMenu 使用者選單 -->
       <v-menu open-on-hover>
         <template #activator="{ props }">
+          <!-- 無管理員身分時：社員 -->
           <v-btn v-if="!user.isAdmin" v-bind="props" prepend-icon="mdi-account">
-            {{ $t('nav.member') }}
+            <template v-if="!isMobile.valueOf()">
+              {{ $t('nav.member') }}
+            </template>
           </v-btn>
-          <v-btn v-if="user.isAdmin" v-bind="props" prepend-icon="mdi-account">
-            {{ $t('nav.admin') }}
+          <!-- 有管理員身分時：管理員 -->
+          <v-btn v-if="user.isAdmin" v-bind="props" prepend-icon="mdi-account-wrench">
+            <template v-if="!isMobile.valueOf()">
+              {{ $t('nav.admin') }}
+            </template>
           </v-btn>
         </template>
         <v-list class="bg-secondary">
@@ -59,25 +65,28 @@
   <v-main>
     <router-view></router-view>
   </v-main>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
 </template>
 
 <script setup>
-import { useTheme } from 'vuetify'
+import { useTheme, useDisplay } from 'vuetify'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useAxios } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
+// import { isMongoId } from 'validator'
 
 const { t } = useI18n()
 // const router = useRouter()
 const user = useUserStore()
-const apiAuth = useAxios()
+const { apiAuth } = useAxios()
 const createSnackbar = useSnackbar()
 const theme = useTheme()
-
-console.log('user', user)
+const display = useDisplay()
 
 const resourceMenu = [
   { to: '/equipment', text: t('nav.resourceMenu.equipment'), value: 'equipment' },
@@ -117,9 +126,12 @@ const logout = async () => {
   })
 }
 
+// 螢幕寬度 < 600 時 isMobile.valueOf() = true
+const isMobile = computed(() => display.xs.value)
+
 // 登入身分為管理員時，導覽列顏色變成茶色
 const appBarColor = computed(() => {
-  return user.isAdmin ? 'bg-brown' : 'bg-secondary'
+  return user.isAdmin ? 'bg-brown' : 'bg-light-green-darken-2'
 })
 
 function toggleTheme() {
