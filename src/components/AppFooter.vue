@@ -1,9 +1,9 @@
 <template>
-  <v-footer border class="h-25" app>
+  <v-footer border height="25vh">
     <v-container class="h-100 d-flex flex-column justify-space-between">
       <v-row>
         <!-- logo, slogan -->
-        <v-col cols="12" md="5">
+        <v-col v-if="!isMobile.valueOf()" cols="12" md="5">
           <h3><v-icon>mdi-film</v-icon> {{ $t('branding') }}</h3>
           <span>Lorem ipsum dolor sit amet.</span>
         </v-col>
@@ -53,6 +53,13 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const display = useDisplay()
+
+const isMobile = computed(() => display.xs.value)
+
 // SNS
 const sns = [
   {

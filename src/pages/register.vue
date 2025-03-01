@@ -1,6 +1,6 @@
 <!-- 註冊頁 -->
 <template>
-  <v-container class="h-100 mt-lg-5">
+  <v-container class="h-100 mt-lg-5" min-height="100vh">
     <v-row class="justify-center">
       <v-col cols="12">
         <!-- Title: 申請 -->
@@ -128,6 +128,7 @@ const submit = handleSubmit(async (values) => {
       text: t('register.success'),
       snackbarProps: {
         color: 'success',
+        rounded: 'pill',
       },
     })
     // 跳頁
@@ -140,6 +141,7 @@ const submit = handleSubmit(async (values) => {
       text: t('api.' + (error?.response?.data?.message || 'unknownError')),
       snackbarProps: {
         color: 'error',
+        rounded: 'pill',
       },
     })
   }

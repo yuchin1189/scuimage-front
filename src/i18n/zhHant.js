@@ -11,8 +11,8 @@ export default {
     resources: '資源借用',
     about: '關於',
     resourceMenu: {
-      equipment: '器材借用',
-      lab: '暗房預約',
+      equipment: '借用器材',
+      lab: '預約暗房',
     },
 
     // userMenu 登入選單
@@ -35,6 +35,7 @@ export default {
     passwordConfirm: '確認密碼',
   },
   register: {
+    go: '註冊',
     submit: '送出申請',
     success: '註冊成功',
   },
@@ -45,6 +46,41 @@ export default {
   logout: {
     success: '登出成功',
   },
+
+  equipment: {
+    available: '可借用',
+    reserved: '待允許',
+    inuse: '外借中',
+    name: '品名',
+    image: '圖片',
+    description: '說明',
+    category: '分類',
+    status: '狀態',
+    createdAt: '更新時間',
+    updatedAt: '新增時間',
+    edit: '編輯',
+    create: '新增器材',
+    closeDialog: '捨棄',
+    save: '保存',
+    editSuccess: '修改成功',
+    createSuccess: '新增成功',
+  },
+
+  equipmentCategory: {
+    filmCamera: '底片相機',
+    digitalCamera: '數位相機',
+    lens: '鏡頭',
+    tripod: '腳架',
+    book: '書籍',
+    accessories: '️配件',
+  },
+
+  fileAgent: {
+    helpText: '按一下或將檔案拉進來',
+    errorType: '只接受圖片',
+    errorSize: '勿超過 1MB',
+  },
+  themeChanged: '主題已切換',
 
   api: {
     //帳號

@@ -1,9 +1,22 @@
 <template>
-  <v-container fluid class="welcome-img fill-height h-100">
-    <v-row>
-      <v-col class="d-flex justify-center align-center mb-lg-10">
-        <v-btn variant="tonal" size="large" class="bg-brown text-white">Start</v-btn>
+  <v-container fluid class="fill-height h-100 pa-0" min-height="100vh">
+    <v-row class="welcome-img h-100">
+      <v-col class="d-flex justify-center align-center">
+        <v-btn
+          rounded="pill"
+          size="large"
+          class=""
+          append-icon="mdi-chevron-right"
+          color="secondary"
+          to="/equipment"
+        >
+          {{ $t('nav.resourceMenu.equipment') }}
+        </v-btn>
       </v-col>
+    </v-row>
+    <v-divider></v-divider>
+    <v-row>
+      <v-col cols="12" md="" class="d-flex justify-lg-space-between align-center"> </v-col>
     </v-row>
   </v-container>
 </template>

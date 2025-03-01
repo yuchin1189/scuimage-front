@@ -51,13 +51,26 @@ const theme00 = {
   },
 }
 
+// 根據使用者裝置的主題設定來決定 defaultTheme
+let deviceDefaultTheme =
+  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
+// 監聽顏色模式變化，並自動更新裝置主題
+const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+mediaQuery.addEventListener('change', (event) => {
+  console.log('changed')
+  const updatedDeviceTheme = event.matches ? 'dark' : 'light'
+  console.log('System theme changed to:', updatedDeviceTheme)
+  deviceDefaultTheme = updatedDeviceTheme
+})
+
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   locale: {
     adapter: createVueI18nAdapter({ i18n, useI18n }),
   },
   theme: {
-    defaultTheme: 'dark',
+    defaultTheme: deviceDefaultTheme,
     themes: {
       theme00,
     },
