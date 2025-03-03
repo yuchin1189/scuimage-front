@@ -1,5 +1,5 @@
 <template>
-  <v-footer border height="25vh">
+  <v-footer border max-height="25vh">
     <v-container class="h-100 d-flex flex-column justify-space-between">
       <v-row>
         <!-- logo, slogan -->
@@ -41,7 +41,7 @@
               class="text-decoration-none on-surface"
               href=""
               rel="noopener noreferrer"
-              target="_blank"
+              target="_top"
             >
               版權所有
             </a>

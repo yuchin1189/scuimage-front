@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fill-height h-100 pa-0" min-height="100vh">
+  <v-container fluid height="90vh" class="pa-0">
     <v-row class="welcome-img h-100">
       <v-col class="d-flex justify-center align-center">
         <v-btn
@@ -14,11 +14,9 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-divider></v-divider>
-    <v-row>
-      <v-col cols="12" md="" class="d-flex justify-lg-space-between align-center"> </v-col>
-    </v-row>
   </v-container>
+  <!-- <v-container height="50vh"></v-container> -->
+  <!-- <v-container height="50vh"></v-container> -->
 </template>
 
 <script setup></script>

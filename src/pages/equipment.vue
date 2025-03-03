@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-100 mt-lg-5" min-height="100vh">
+  <v-container class="mt-lg-5">
     <v-row class="justify-center">
       <v-col cols="12">
         <!-- Title: 器材借用 -->
@@ -7,31 +7,47 @@
         <v-divider></v-divider>
       </v-col>
     </v-row>
+  </v-container>
+
+  <v-container class="">
     <v-row>
       <v-col cols="12">
+        <v-toolbar v-show="isAdmin">
+          <!-- 搜尋 -->
+          <v-col>
+            <v-text-field
+              v-model="search"
+              prepend-inner-icon="mdi-magnify"
+              variant="outlined"
+              hide-details
+              single-line
+              density="compact"
+            >
+            </v-text-field>
+          </v-col>
+          <!-- 表格開關 checkbox -->
+          <v-col>
+            <v-checkbox
+              v-model="showDataTable"
+              hide-details
+              label="Show Table"
+              class="me-2"
+            ></v-checkbox>
+          </v-col>
+          <!-- 新增器材 -->
+          <v-col class="d-flex justify-end align-center">
+            <v-btn prepend-icon="mdi-plus" variant="elevated" @click="openDialog(null)">
+              {{ $t('equipment.create') }}
+            </v-btn>
+          </v-col>
+        </v-toolbar>
         <!-- 器材列表 -->
-        <v-data-table :items="equipments" :headers="headers" :search="search">
-          <template #top>
-            <v-toolbar>
-              <v-col>
-                <v-text-field
-                  v-model="search"
-                  prepend-inner-icon="mdi-magnify"
-                  variant="outlined"
-                  hide-details
-                  single-line
-                  density="compact"
-                >
-                </v-text-field>
-              </v-col>
-              <v-col></v-col>
-              <v-col class="d-flex justify-end">
-                <v-btn prepend-icon="mdi-plus" variant="elevated" @click="openDialog(null)">
-                  {{ $t('equipment.create') }}
-                </v-btn>
-              </v-col>
-            </v-toolbar>
-          </template>
+        <v-data-table
+          v-show="showDataTable"
+          :items="equipments"
+          :headers="headers"
+          :search="search"
+        >
           <template #[`item.image`]="{ value }">
             <v-img :src="value" height="2.5rem"></v-img>
           </template>
@@ -59,17 +75,29 @@
     </v-row>
   </v-container>
 
-  <!-- 表單：新增物品、編輯物品 -->
+  <v-container>
+    <v-row>
+      <!-- 器材卡片 -->
+      <v-col v-for="equipment of equipments" :key="equipment._id" cols="12" md="6" lg="3">
+        <equipment-card v-bind="equipment" @click="openDialog(equipment)"></equipment-card>
+      </v-col>
+    </v-row>
+  </v-container>
+
+  <!-- 表單：新增、編輯物品 -->
   <v-dialog v-model="dialog.open" persistent>
     <v-form :disabled="isSubmitting" @submit.prevent="submit">
-      <v-row class="justify-center">
-        <v-col cols="12" md="10" lg="8">
-          <v-card class="pa-lg-4">
+      <v-row class="justify-center align-center">
+        <v-col cols="12" md="6">
+          <v-img :src="image.value.value" rounded="md"></v-img>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-card class="">
             <!-- 標題：編輯器材、新增器材 -->
-            <v-card-title>
+            <v-card-title v-show="user.isLoggedIn">
               {{ $t(dialog.id ? 'equipment.edit' : 'equipment.create') }}
             </v-card-title>
-            <v-divider color="white"></v-divider>
+            <v-divider v-show="user.isLoggedIn" color="white"></v-divider>
 
             <!-- 欄位 -->
             <v-card-text>
@@ -114,7 +142,7 @@
                     :error-messages="description.errorMessage.value"
                   />
                 </v-col>
-                <v-col cols="12">
+                <v-col v-show="user.isAdmin" cols="12">
                   <!-- 圖片上傳 -->
                   <vue-file-agent
                     ref="fileAgent"
@@ -155,14 +183,28 @@ import { useSnackbar } from 'vuetify-use-dialog'
 import { useI18n } from 'vue-i18n'
 import { reactive, computed, ref } from 'vue'
 import { useForm, useField } from 'vee-validate'
+import { useUserStore } from '@/stores/user'
 import * as yup from 'yup'
+import EquipmentCard from '@/components/EquipmentCard.vue'
 
 const { t } = useI18n()
 const { apiAuth } = useAxios()
 const createSnackbar = useSnackbar()
+const user = useUserStore()
+const isAdmin = computed(() => user.isAdmin)
+const showDataTable = ref()
+
+const ITEMS_PER_PAGE = 2
+const currentPage = ref(1)
+const totalPage = computed(() => Math.ceil(equipments.value.length / ITEMS_PER_PAGE))
 
 const equipments = reactive([])
 const search = ref('')
+const filteredEquipments = computed(() => {
+  return equipments.value
+    .filter((equipment) => equipment.name.toLowerCase().includes(search.value.toLowerCase()))
+    .slice((currentPage.value - 1) * ITEMS_PER_PAGE, currentPage.value * ITEMS_PER_PAGE)
+})
 const headers = computed(() => {
   return [
     { title: 'ID', key: '_id', sortable: true },
@@ -170,6 +212,7 @@ const headers = computed(() => {
     { title: t('equipment.name'), key: 'name', sortable: true },
     { title: t('equipment.description'), key: 'description', sortable: true },
     { title: t('equipment.category'), key: 'category', sortable: true },
+    { title: t('equipment.status'), key: 'status', sortable: true },
     { title: t('equipment.createdAt'), key: 'createdAt', sortable: true },
     { title: t('equipment.updatedAt'), key: 'updatedAt', sortable: true },
     // 虛擬欄位，並非後端傳來的資料
@@ -243,6 +286,7 @@ const openDialog = (item) => {
     description.value.value = item.description
     category.value.value = item.category
     status.value.value = item.status
+    image.value.value = item.image
   }
   dialog.value.open = true
 }
@@ -256,6 +300,7 @@ const closeDialog = () => {
 
 const name = useField('name')
 const description = useField('description')
+const image = useField('image')
 
 const category = useField('category')
 // 如果沒有做 t('多語言翻譯') 的話，可以不用 computed

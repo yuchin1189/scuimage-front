@@ -55,7 +55,7 @@ export default {
     image: '圖片',
     description: '說明',
     category: '分類',
-    status: '狀態',
+    status: '借用狀態',
     createdAt: '更新時間',
     updatedAt: '新增時間',
     edit: '編輯',
@@ -64,6 +64,10 @@ export default {
     save: '保存',
     editSuccess: '修改成功',
     createSuccess: '新增成功',
+    ListView: '器材列表',
+    // 0: '可借用',
+    // 1: '待允許',
+    // 2: '外借中',
   },
 
   equipmentCategory: {
@@ -114,7 +118,7 @@ export default {
     equipmentImageRequired: '請新增器材照片',
     equipmentDescriptionRequired: '請新增器材說明',
     equipmentCategoryRequired: '請選取器材分類',
-    equipmentCategoryInvalid: '器材分類不符',
+    equipmentCategoryInvalid: '請在現存分類中選擇',
     equipmentStatusRequired: '請選取器材借用狀態',
     equipmentIdInvalid: '器材 ID 錯誤',
     equipmentNotFound: '查無器材',

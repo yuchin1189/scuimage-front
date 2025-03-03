@@ -1,6 +1,6 @@
 <!-- 登入頁 -->
 <template>
-  <v-container class="h-100 mt-lg-5" min-height="100vh">
+  <v-container class="mt-lg-5" height="100vh">
     <v-row class="justify-center">
       <v-col cols="12">
         <!-- Title: 登入 -->

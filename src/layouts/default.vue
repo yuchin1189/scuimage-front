@@ -10,21 +10,26 @@
       <!-- 活動 -->
 
       <!-- 資源借用選單 -->
-      <v-menu open-on-hover open-on-click="">
+      <v-menu open-on-click="">
         <template #activator="{ props }">
           <v-btn v-bind="props" prepend-icon="mdi-format-list-checks">
             <template v-if="!isMobile.valueOf()"> {{ $t('nav.resources') }} </template>
           </v-btn>
         </template>
         <v-list class="bg-main">
-          <v-list-item v-for="item in resourceMenu" :key="item.value" :to="item.to">
+          <v-list-item
+            v-for="item in resourceMenu"
+            :key="item.value"
+            :to="item.to"
+            :disabled="item.value === 'lab'"
+          >
             {{ item.text }}
           </v-list-item>
         </v-list>
       </v-menu>
 
       <!-- userMenu 使用者選單 -->
-      <v-menu open-on-hover open-on-click>
+      <v-menu open-on-click>
         <template #activator="{ props }">
           <!-- 無管理員身分時：社員 -->
           <v-btn v-if="!user.isAdmin" v-bind="props" prepend-icon="mdi-account">
@@ -146,7 +151,7 @@ const isMobile = computed(() => display.xs.value)
 
 // 登入身分為管理員時，導覽列顏色變成茶色
 const appBarColor = computed(() => {
-  return user.isAdmin ? 'bg-brown' : 'bg-light-green-darken-2'
+  return user.isAdmin ? 'bg-brown' : 'bg-primary'
 })
 
 function toggleTheme() {
