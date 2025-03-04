@@ -101,7 +101,7 @@
       <v-container :fluid="formIsFluid">
         <v-row class="justify-center align-center">
           <v-col v-show="image.value.value !== ''" cols="10" md="6">
-            <v-img :src="image.value.value" rounded="lg"></v-img>
+            <v-img :src="image.value.value" rounded="lg" :max-height="imgMaxHeight"></v-img>
           </v-col>
           <v-col cols="12" md="6">
             <v-card class="">
@@ -216,6 +216,7 @@ const showDataTable = ref()
 const display = useDisplay()
 
 const formIsFluid = computed(() => display.smAndDown.value)
+const imgMaxHeight = computed(() => (display.smAndDown.value ? '25vh' : '80vh'))
 const equipments = reactive([])
 const search = ref('')
 const headers = computed(() => {
