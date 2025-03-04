@@ -76,9 +76,9 @@
     </v-row>
   </v-container>
 
+  <!-- 器材卡片 -->
   <v-container>
     <v-row>
-      <!-- 器材卡片 -->
       <v-col v-for="equipment of equipments" :key="equipment._id" cols="12" md="6" lg="3">
         <equipment-card-mobile
           v-bind="equipment"
@@ -149,7 +149,6 @@
                     <!-- 說明 -->
                     <v-textarea
                       v-model="description.value.value"
-                      clearable
                       :label="$t('equipment.description')"
                       :error-messages="description.errorMessage.value"
                     />
