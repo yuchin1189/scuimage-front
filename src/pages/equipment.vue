@@ -87,92 +87,94 @@
   <!-- 表單：新增、編輯物品 -->
   <v-dialog v-model="dialog.open" persistent>
     <v-form :disabled="isSubmitting" @submit.prevent="submit">
-      <v-row class="justify-center align-center">
-        <v-col cols="12" md="6">
-          <v-img :src="image.value.value" rounded="md"></v-img>
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-card class="">
-            <!-- 標題：編輯器材、新增器材 -->
-            <v-card-title v-show="user.isLoggedIn">
-              {{ $t(dialog.id ? 'equipment.edit' : 'equipment.create') }}
-            </v-card-title>
-            <v-divider v-show="user.isLoggedIn" color="white"></v-divider>
+      <v-container>
+        <v-row class="justify-center align-center">
+          <v-col v-show="image.value.value !== ''" cols="10" md="6">
+            <v-img :src="image.value.value" rounded="md"></v-img>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-card class="">
+              <!-- 標題：編輯器材、新增器材 -->
+              <v-card-title v-show="user.isLoggedIn">
+                {{ $t(dialog.id ? 'equipment.edit' : 'equipment.create') }}
+              </v-card-title>
+              <v-divider v-show="user.isLoggedIn" color="white"></v-divider>
 
-            <!-- 欄位 -->
-            <v-card-text>
-              <v-row>
-                <v-col cols="12" md="8">
-                  <!-- 品名 -->
-                  <v-text-field
-                    v-model="name.value.value"
-                    :label="$t('equipment.name')"
-                    :error-messages="name.errorMessage.value"
-                  />
-                </v-col>
-                <v-col cols="12" md="4">
-                  <!-- 分類 -->
-                  <v-select
-                    v-model="category.value.value"
-                    :error-messages="category.errorMessage.value"
-                    :items="categoryOptions"
-                    :label="$t('equipment.category')"
-                    item-title="title"
-                    item-value="value"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <!-- 狀態 -->
-                  <v-select
-                    v-model="status.value.value"
-                    :error-messages="status.errorMessage.value"
-                    :items="statusOptions"
-                    :label="$t('equipment.status')"
-                    type="number"
-                    item-title="title"
-                    item-value="value"
-                  />
-                </v-col>
-                <v-divider></v-divider>
-                <v-col cols="12">
-                  <!-- 說明 -->
-                  <v-textarea
-                    v-model="description.value.value"
-                    :label="$t('equipment.description')"
-                    :error-messages="description.errorMessage.value"
-                  />
-                </v-col>
-                <v-col v-show="user.isAdmin" cols="12">
-                  <!-- 圖片上傳 -->
-                  <vue-file-agent
-                    ref="fileAgent"
-                    v-model="fileRecords"
-                    v-model:raw-model-value="rawFileRecords"
-                    accept="image/*"
-                    deletable
-                    max-size="1MB"
-                    :help-text="$t('fileAgent.helpText')"
-                    :error-text="{
-                      type: $t('fileAgent.errorType'),
-                      size: $t('fileAgent.errorSize'),
-                    }"
-                  ></vue-file-agent>
-                </v-col>
-              </v-row>
-            </v-card-text>
+              <!-- 欄位 -->
+              <v-card-text>
+                <v-row>
+                  <v-col cols="12" md="8">
+                    <!-- 品名 -->
+                    <v-text-field
+                      v-model="name.value.value"
+                      :label="$t('equipment.name')"
+                      :error-messages="name.errorMessage.value"
+                    />
+                  </v-col>
+                  <v-col cols="6" md="4">
+                    <!-- 分類 -->
+                    <v-select
+                      v-model="category.value.value"
+                      :error-messages="category.errorMessage.value"
+                      :items="categoryOptions"
+                      :label="$t('equipment.category')"
+                      item-title="title"
+                      item-value="value"
+                    />
+                  </v-col>
+                  <v-col cols="6">
+                    <!-- 狀態 -->
+                    <v-select
+                      v-model="status.value.value"
+                      :error-messages="status.errorMessage.value"
+                      :items="statusOptions"
+                      :label="$t('equipment.status')"
+                      type="number"
+                      item-title="title"
+                      item-value="value"
+                    />
+                  </v-col>
+                  <v-col cols="6">
+                    <!-- 說明 -->
+                    <v-textarea
+                      v-model="description.value.value"
+                      clearable
+                      :label="$t('equipment.description')"
+                      :error-messages="description.errorMessage.value"
+                    />
+                  </v-col>
+                  <v-col v-show="user.isAdmin" cols="6" md="12">
+                    <!-- 圖片上傳 -->
+                    <vue-file-agent
+                      ref="fileAgent"
+                      v-model="fileRecords"
+                      v-model:raw-model-value="rawFileRecords"
+                      accept="image/*"
+                      deletable
+                      max-size="1MB"
+                      :help-text="$t('fileAgent.helpText')"
+                      :error-text="{
+                        type: $t('fileAgent.errorType'),
+                        size: $t('fileAgent.errorSize'),
+                      }"
+                    ></vue-file-agent>
+                  </v-col>
+                </v-row>
+              </v-card-text>
 
-            <!-- 動作按鈕 -->
-            <v-card-actions class="justify-end">
-              <v-btn variant="plain" color="primary" @click="closeDialog">
-                {{ $t('equipment.closeDialog') }}
-              </v-btn>
-              <v-btn type="submit" :loading="isSubmitting" variant="elevated" color="primary">
-                {{ $t('equipment.save') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+              <!-- 動作按鈕 -->
+              <v-card-actions class="justify-end">
+                <v-btn variant="plain" color="primary" @click="closeDialog">
+                  {{ $t('equipment.closeDialog') }}
+                </v-btn>
+                <v-btn type="submit" :loading="isSubmitting" variant="elevated" color="primary">
+                  {{ $t('equipment.save') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-form>
   </v-dialog>
 </template>
@@ -196,15 +198,15 @@ const showDataTable = ref()
 
 const ITEMS_PER_PAGE = 2
 const currentPage = ref(1)
-const totalPage = computed(() => Math.ceil(equipments.value.length / ITEMS_PER_PAGE))
+// const totalPage = computed(() => Math.ceil(equipments.value.length / ITEMS_PER_PAGE))
 
 const equipments = reactive([])
 const search = ref('')
-const filteredEquipments = computed(() => {
-  return equipments.value
-    .filter((equipment) => equipment.name.toLowerCase().includes(search.value.toLowerCase()))
-    .slice((currentPage.value - 1) * ITEMS_PER_PAGE, currentPage.value * ITEMS_PER_PAGE)
-})
+// const filteredEquipments = computed(() => {
+//   return equipments.value
+//     .filter((equipment) => equipment.name.toLowerCase().includes(search.value.toLowerCase()))
+//     .slice((currentPage.value - 1) * ITEMS_PER_PAGE, currentPage.value * ITEMS_PER_PAGE)
+// })
 const headers = computed(() => {
   return [
     { title: 'ID', key: '_id', sortable: true },
@@ -276,6 +278,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
     description: '',
     category: '',
     status: 0,
+    image: '',
   },
 })
 
