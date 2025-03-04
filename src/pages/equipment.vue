@@ -14,7 +14,7 @@
       <v-col cols="12">
         <v-toolbar v-show="isAdmin">
           <!-- 搜尋 -->
-          <v-col>
+          <v-col cols="4">
             <v-text-field
               v-model="search"
               prepend-inner-icon="mdi-magnify"
@@ -26,7 +26,7 @@
             </v-text-field>
           </v-col>
           <!-- 表格開關 checkbox -->
-          <v-col>
+          <v-col cols="4">
             <v-checkbox
               v-model="showDataTable"
               hide-details
@@ -35,12 +35,13 @@
             ></v-checkbox>
           </v-col>
           <!-- 新增器材 -->
-          <v-col class="d-flex justify-end align-center">
+          <v-col cols="4" md="4" class="d-flex justify-end align-center">
             <v-btn prepend-icon="mdi-plus" variant="elevated" @click="openDialog(null)">
               {{ $t('equipment.create') }}
             </v-btn>
           </v-col>
         </v-toolbar>
+
         <!-- 器材列表 -->
         <v-data-table
           v-show="showDataTable"
@@ -79,7 +80,17 @@
     <v-row>
       <!-- 器材卡片 -->
       <v-col v-for="equipment of equipments" :key="equipment._id" cols="12" md="6" lg="3">
-        <equipment-card v-bind="equipment" @click="openDialog(equipment)"></equipment-card>
+        <equipment-card-mobile
+          v-bind="equipment"
+          class="d-block d-md-none"
+          @click="openDialog(equipment)"
+        ></equipment-card-mobile>
+
+        <equipment-card
+          v-bind="equipment"
+          class="d-none d-md-block"
+          @click="openDialog(equipment)"
+        ></equipment-card>
       </v-col>
     </v-row>
   </v-container>
@@ -87,10 +98,10 @@
   <!-- 表單：新增、編輯物品 -->
   <v-dialog v-model="dialog.open" persistent>
     <v-form :disabled="isSubmitting" @submit.prevent="submit">
-      <v-container>
+      <v-container :fluid="formIsFluid">
         <v-row class="justify-center align-center">
           <v-col v-show="image.value.value !== ''" cols="10" md="6">
-            <v-img :src="image.value.value" rounded="md"></v-img>
+            <v-img :src="image.value.value" rounded="lg"></v-img>
           </v-col>
           <v-col cols="12" md="6">
             <v-card class="">
@@ -167,7 +178,13 @@
                 <v-btn variant="plain" color="primary" @click="closeDialog">
                   {{ $t('equipment.closeDialog') }}
                 </v-btn>
-                <v-btn type="submit" :loading="isSubmitting" variant="elevated" color="primary">
+                <v-btn
+                  v-if="user.isLoggedIn"
+                  type="submit"
+                  :loading="isSubmitting"
+                  variant="elevated"
+                  color="primary"
+                >
                   {{ $t('equipment.save') }}
                 </v-btn>
               </v-card-actions>
@@ -184,10 +201,12 @@ import { useAxios } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useI18n } from 'vue-i18n'
 import { reactive, computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useForm, useField } from 'vee-validate'
 import { useUserStore } from '@/stores/user'
 import * as yup from 'yup'
 import EquipmentCard from '@/components/EquipmentCard.vue'
+import EquipmentCardMobile from '@/components/EquipmentCardMobile.vue'
 
 const { t } = useI18n()
 const { apiAuth } = useAxios()
@@ -195,24 +214,17 @@ const createSnackbar = useSnackbar()
 const user = useUserStore()
 const isAdmin = computed(() => user.isAdmin)
 const showDataTable = ref()
+const display = useDisplay()
 
-const ITEMS_PER_PAGE = 2
-const currentPage = ref(1)
-// const totalPage = computed(() => Math.ceil(equipments.value.length / ITEMS_PER_PAGE))
-
+const formIsFluid = computed(() => display.smAndDown.value)
 const equipments = reactive([])
 const search = ref('')
-// const filteredEquipments = computed(() => {
-//   return equipments.value
-//     .filter((equipment) => equipment.name.toLowerCase().includes(search.value.toLowerCase()))
-//     .slice((currentPage.value - 1) * ITEMS_PER_PAGE, currentPage.value * ITEMS_PER_PAGE)
-// })
 const headers = computed(() => {
   return [
-    { title: 'ID', key: '_id', sortable: true },
+    // { title: 'ID', key: '_id', sortable: true },
     { title: t('equipment.image'), key: 'image', sortable: false },
     { title: t('equipment.name'), key: 'name', sortable: true },
-    { title: t('equipment.description'), key: 'description', sortable: true },
+    // { title: t('equipment.description'), key: 'description', sortable: true },
     { title: t('equipment.category'), key: 'category', sortable: true },
     { title: t('equipment.status'), key: 'status', sortable: true },
     { title: t('equipment.createdAt'), key: 'createdAt', sortable: true },

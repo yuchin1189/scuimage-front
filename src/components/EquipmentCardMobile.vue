@@ -1,12 +1,16 @@
 <template>
-  <v-card link @click="$emit('click', _id)">
-    <v-img :src="image" height="200" cover></v-img>
-    <v-card-title>{{ name }}</v-card-title>
-    <v-card-subtitle>
-      {{ $t('equipmentCategory.' + category) }}
-    </v-card-subtitle>
-    <v-chip class="ma-3 mb-0" :color="statusColor">{{ statusText }}</v-chip>
-    <v-card-text>{{ description }}</v-card-text>
+  <v-card link height="150" @click="$emit('click', _id)">
+    <div class="d-flex flex-no-wrap justify-space-between">
+      <div>
+        <v-card-title class="text-h5"> {{ name }} </v-card-title>
+
+        <v-card-subtitle>{{ $t('equipmentCategory.' + category) }}</v-card-subtitle>
+        <v-chip class="ma-3 mb-0" :color="statusColor">{{ statusText }}</v-chip>
+      </div>
+      <v-avatar class="ma-3" rounded="lg" size="125">
+        <v-img :src="image" cover></v-img>
+      </v-avatar>
+    </div>
   </v-card>
 </template>
 
